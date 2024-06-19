@@ -11,13 +11,13 @@ import os
 
 config = configparser.ConfigParser()
 
-SENDGRID_API_KEY = config.get("General", "sg_api_key")
-AWS_LAMBDA_FUNCTION_NAME = config.get("General", "aws_func_name") # Replace with your Lambda function name
+SENDGRID_API_KEY = st.secrets["sg_api_key"]
+AWS_LAMBDA_FUNCTION_NAME = st.secrets["aws_func_name"] # Replace with your Lambda function name
 
 # Function to send email using SendGrid
 def send_email(to_email, subject, body):
     message = Mail(
-        from_email=config.get("General", "email"),
+        from_email=st.secrets["email"],
         to_emails=to_email,
         subject=subject,
         html_content=body)
