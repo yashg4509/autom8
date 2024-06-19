@@ -4,17 +4,20 @@ import json
 import time
 import threading
 import schedule
+import configparser
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import os
 
-SENDGRID_API_KEY = os.environ["sg_api_key"]
-AWS_LAMBDA_FUNCTION_NAME = os.environ["aws_func_name"]  # Replace with your Lambda function name
+config = configparser.ConfigParser()
+
+SENDGRID_API_KEY = config.get("General", "sg_api_key")
+AWS_LAMBDA_FUNCTION_NAME = config.get("General", "aws_func_name") # Replace with your Lambda function name
 
 # Function to send email using SendGrid
 def send_email(to_email, subject, body):
     message = Mail(
-        from_email=os.environ["email"],
+        from_email=config.get("General", "email"),
         to_emails=to_email,
         subject=subject,
         html_content=body)
